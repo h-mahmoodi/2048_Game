@@ -1,6 +1,9 @@
+import { gameSliceSelectors } from '@/store/slices/game/game.selector';
 import './App.css';
+import { useAppSelector } from '@/hooks/reduxHooks';
 
 function App() {
-  return <div className="App">2048</div>;
+  const game = useAppSelector(gameSliceSelectors.selectGame);
+  return <div className="App">{game.status}</div>;
 }
 export default App;
