@@ -4,13 +4,15 @@ export enum GameStateStatus {
   GAMEOVER = 'gameover',
 }
 
+export type TilePosition = {
+  x: number;
+  y: number;
+};
+
 export type Tile = {
   id: string;
   value: number;
-  position: {
-    x: number;
-    y: number;
-  };
+  position: TilePosition;
   isMerged?: boolean;
 };
 
