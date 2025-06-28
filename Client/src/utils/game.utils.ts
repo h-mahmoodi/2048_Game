@@ -353,3 +353,23 @@ export const moveTilesToDown = (board: Tile[][]): Tile[][] => {
     ? updateCurrentBoard(newBoard, [createRandomTile(newBoard)])
     : newBoard;
 };
+
+export const isGameOver = (board: Tile[][]): boolean => {
+  const size = board.length;
+
+  const isBoardFull = board
+    .flatMap((row) => row)
+    .every((tile) => tile.value !== 0);
+  if (!isBoardFull) return false;
+
+  for (let i = 0; i < size; i++) {
+    for (let j = 0; j < size; j++) {
+      const current = board[i][j].value;
+
+      if (i < size - 1 && current === board[i + 1][j].value) return false; // پایین
+      if (j < size - 1 && current === board[i][j + 1].value) return false; // راست
+    }
+  }
+
+  return true;
+};

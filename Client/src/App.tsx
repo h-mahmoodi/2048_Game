@@ -71,6 +71,7 @@ function App() {
 
   return (
     <div className="App">
+      <div>Status : {game.status}</div>
       <div>Score : {game.score}</div>
       <div>
         {board.map((row, index) => (

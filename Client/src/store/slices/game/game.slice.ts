@@ -4,7 +4,11 @@ import {
   type GameState,
   type Tile,
 } from '@/types/game.type';
-import { createInitialBoard, getScoreFromBoard } from '@/utils/game.utils';
+import {
+  createInitialBoard,
+  getScoreFromBoard,
+  isGameOver,
+} from '@/utils/game.utils';
 
 const initialBoardSize = 4;
 
@@ -38,6 +42,9 @@ const gameSlice = createSlice({
       state.board = action.payload.board;
       state.score = newScore;
       state.bestScore = Math.max(state.bestScore, newScore);
+      if (isGameOver(action.payload.board)) {
+        state.status = GameStateStatus.GAMEOVER;
+      }
     },
     resetGame: (state: GameState) => {
       const newBoard = createInitialBoard(initialState.size);
