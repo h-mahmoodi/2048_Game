@@ -16,10 +16,17 @@ export type Tile = {
   isMerged?: boolean;
 };
 
+//redux
 export type GameState = {
-  board: Tile[];
+  board: Tile[][];
   score: number;
   bestScore: number;
   size: number;
   status: GameStateStatus;
+  timer: number;
+};
+
+//utils
+export type updateBoardProps = {
+  (currentBoard: Tile[][], tiles: Tile[]): Tile[][];
 };

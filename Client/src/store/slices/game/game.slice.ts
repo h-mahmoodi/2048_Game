@@ -1,17 +1,22 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-import { GameStateStatus, type GameState } from '@/types/game.type';
-import { generateInitialTiles } from '@/utils';
+import {
+  GameStateStatus,
+  type GameState,
+  type Tile,
+} from '@/types/game.type';
+import { createInitialBoard, getScoreFromBoard } from '@/utils/game.utils';
 
 const initialBoardSize = 4;
 
-const initialTilesCount = Math.floor(initialBoardSize / 4);
+const initialTilesCount = Math.floor(Math.random() * initialBoardSize) + 1;
 
 const initialState: GameState = {
-  board: [],
+  board: createInitialBoard(initialBoardSize),
   score: 0,
   bestScore: 0,
   size: initialBoardSize,
   status: GameStateStatus.IDLE,
+  timer: Date.now(),
 };
 
 const gameSlice = createSlice({
@@ -19,27 +24,20 @@ const gameSlice = createSlice({
   initialState,
   reducers: {
     startGame: (state: GameState) => {
-      state.board = generateInitialTiles(
-        initialBoardSize,
-        initialTilesCount
-      );
+      const newBoard = createInitialBoard(state.size);
+      state.board = newBoard;
       state.status = GameStateStatus.PLAYING;
     },
-    updateBoard: (state: GameState, action: PayloadAction<GameState>) => {
+    updateBoard: (
+      state: GameState,
+      action: PayloadAction<{ board: Tile[][] }>
+    ) => {
+      const oldScore = getScoreFromBoard(state.board);
       state.board = action.payload.board;
-      state.score = action.payload.score;
-      state.bestScore = Math.max(state.bestScore, action.payload.score);
+      state.score = getScoreFromBoard(action.payload.board);
+      state.bestScore = Math.max(state.bestScore, oldScore);
     },
-    resetGame: (state: GameState) => {
-      state.board = generateInitialTiles(
-        initialBoardSize,
-        initialTilesCount
-      );
-      state.score = 0;
-      state.bestScore = 0;
-      state.size = initialBoardSize;
-      state.status = GameStateStatus.PLAYING;
-    },
+    resetGame: (state: GameState) => {},
     endGame: (state: GameState) => {
       state.status = GameStateStatus.GAMEOVER;
     },
