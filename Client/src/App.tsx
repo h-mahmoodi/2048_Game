@@ -1,7 +1,11 @@
 import { gameSliceSelectors } from '@/store/slices/game/game.selector';
 import './App.css';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
-import { startGame, updateBoard } from './store/slices/game/game.slice';
+import {
+  resetGame,
+  startGame,
+  updateBoard,
+} from './store/slices/game/game.slice';
 import { useEffect } from 'react';
 import {
   moveTilesToDown,
@@ -36,6 +40,10 @@ function App() {
 
   const handleUpClick = () => {
     dispatch(updateBoard({ board: moveTilesToUp(board) }));
+  };
+
+  const handleReset = () => {
+    dispatch(resetGame());
   };
 
   useEffect(() => {
@@ -100,6 +108,9 @@ function App() {
         <button onClick={handleRightClick}>right</button>
         <button onClick={handleDownClick}>down</button>
         <button onClick={handleUpClick}>up</button>
+      </div>
+      <div>
+        <button onClick={handleReset}>Reset</button>
       </div>
     </div>
   );

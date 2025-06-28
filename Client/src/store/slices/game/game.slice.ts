@@ -26,18 +26,27 @@ const gameSlice = createSlice({
     startGame: (state: GameState) => {
       const newBoard = createInitialBoard(state.size);
       state.board = newBoard;
+      state.score = 0;
       state.status = GameStateStatus.PLAYING;
+      state.timer = Date.now();
     },
     updateBoard: (
       state: GameState,
       action: PayloadAction<{ board: Tile[][] }>
     ) => {
-      const oldScore = getScoreFromBoard(state.board);
+      const newScore = getScoreFromBoard(action.payload.board);
       state.board = action.payload.board;
-      state.score = getScoreFromBoard(action.payload.board);
-      state.bestScore = Math.max(state.bestScore, oldScore);
+      state.score = newScore;
+      state.bestScore = Math.max(state.bestScore, newScore);
     },
-    resetGame: (state: GameState) => {},
+    resetGame: (state: GameState) => {
+      const newBoard = createInitialBoard(initialState.size);
+      state.board = newBoard;
+      state.score = 0;
+      state.bestScore = 0;
+      state.status = GameStateStatus.PLAYING;
+      state.timer = Date.now();
+    },
     endGame: (state: GameState) => {
       state.status = GameStateStatus.GAMEOVER;
     },
