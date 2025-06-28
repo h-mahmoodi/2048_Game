@@ -63,31 +63,38 @@ function App() {
 
   return (
     <div className="App">
-      {board.map((row, index) => (
-        <div
-          key={`row-${index}`}
-          style={{
-            display: 'flex',
-            gap: '5px',
-            fontSize: '30px',
-            padding: '5px',
-          }}
-        >
-          {row.map((col, index2) => (
-            <div
-              key={`col-${index2}`}
-              style={{
-                width: '80px',
-                height: '80px',
-                textAlign: 'center',
-                background: col.value === 0 ? 'black' : 'green',
-              }}
-            >
-              {col.value}
-            </div>
-          ))}
-        </div>
-      ))}
+      <div>Score : {game.score}</div>
+      <div>
+        {board.map((row, index) => (
+          <div
+            key={`row-${index}`}
+            style={{
+              display: 'flex',
+              gap: '5px',
+              fontSize: '30px',
+              padding: '5px',
+            }}
+          >
+            {row.map((col, index2) => (
+              <div
+                key={`col-${index2}`}
+                style={{
+                  width: '80px',
+                  height: '80px',
+                  textAlign: 'center',
+                  background: col.isMerged
+                    ? 'red'
+                    : col.value === 0
+                      ? 'black'
+                      : 'green',
+                }}
+              >
+                {col.value}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
       <div>
         <button onClick={handleLeftClick}>left</button>
         <button onClick={handleRightClick}>right</button>

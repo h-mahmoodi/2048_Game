@@ -13,9 +13,12 @@ export const getAllTiles = (board: Tile[][]) => {
 };
 
 export const getScoreFromBoard = (board: Tile[][]) => {
-  return board
-    .flatMap((tile) => tile)
-    .reduce((acc, tile) => acc + tile.value, 0);
+  return (
+    board
+      .flatMap((tile) => tile)
+      // .filter((tile) => tile.isMerged)
+      .reduce((acc, tile) => acc + tile.value, 0)
+  );
 };
 
 //functions
@@ -129,7 +132,7 @@ export const moveTilesToLeft = (board: Tile[][]): Tile[][] => {
         }
         const movedTile: Tile = {
           ...current,
-          isMerged: false,
+          //   isMerged: false,
           id: crypto.randomUUID(),
           position: { x: rowIndex, y: newRow.length },
         };
@@ -192,7 +195,7 @@ export const moveTilesToRight = (board: Tile[][]): Tile[][] => {
 
         const movedTile: Tile = {
           ...current,
-          isMerged: false,
+          //   isMerged: false,
           id: crypto.randomUUID(),
           position: { x: rowIndex, y: newY },
         };
@@ -264,7 +267,7 @@ export const moveTilesToUp = (board: Tile[][]): Tile[][] => {
 
         const movedTile: Tile = {
           ...current,
-          isMerged: false,
+          //   isMerged: false,
           id: crypto.randomUUID(),
           position: { x: newX, y: colIndex },
         };
@@ -322,7 +325,7 @@ export const moveTilesToDown = (board: Tile[][]): Tile[][] => {
 
         const movedTile: Tile = {
           ...current,
-          isMerged: false,
+          //   isMerged: false,
           id: crypto.randomUUID(),
           position: { x: newX, y: colIndex },
         };
