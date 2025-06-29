@@ -1,5 +1,6 @@
 export enum GameStateStatus {
   PLAYING = 'playing',
+  PAUSE = 'pause',
   IDLE = 'idle',
   GAMEOVER = 'gameover',
 }
@@ -30,3 +31,10 @@ export type GameState = {
 export type updateBoardProps = {
   (currentBoard: Tile[][], tiles: Tile[]): Tile[][];
 };
+
+export enum Direction {
+  UP = 'up',
+  DOWN = 'down',
+  LEFT = 'left',
+  RIGHT = 'right',
+}

@@ -13,37 +13,40 @@ import {
   moveTilesToRight,
   moveTilesToUp,
 } from './utils/game.utils';
+import { useGameEngine } from './hooks/useGameEngine/useGameEngine';
+import { Direction } from './types/game.type';
 
 function App() {
+  const { startNew, pause, resume, move, reset } = useGameEngine();
   const game = useAppSelector(gameSliceSelectors.selectGame);
 
   const { board } = useAppSelector(gameSliceSelectors.selectGame);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(startGame());
+    startNew();
   }, []);
 
   console.log(game);
 
   const handleLeftClick = () => {
-    dispatch(updateBoard({ board: moveTilesToLeft(board) }));
+    move(Direction.LEFT);
   };
 
   const handleRightClick = () => {
-    dispatch(updateBoard({ board: moveTilesToRight(board) }));
+    move(Direction.RIGHT);
   };
 
   const handleDownClick = () => {
-    dispatch(updateBoard({ board: moveTilesToDown(board) }));
+    move(Direction.DOWN);
   };
 
   const handleUpClick = () => {
-    dispatch(updateBoard({ board: moveTilesToUp(board) }));
+    move(Direction.UP);
   };
 
   const handleReset = () => {
-    dispatch(resetGame());
+    reset();
   };
 
   useEffect(() => {

@@ -4,18 +4,11 @@ import {
   type GameState,
   type Tile,
 } from '@/types/game.type';
-import {
-  createInitialBoard,
-  getScoreFromBoard,
-  isGameOver,
-} from '@/utils/game.utils';
 
 const initialBoardSize = 4;
 
-const initialTilesCount = Math.floor(Math.random() * initialBoardSize) + 1;
-
 const initialState: GameState = {
-  board: createInitialBoard(initialBoardSize),
+  board: [],
   score: 0,
   bestScore: 0,
   size: initialBoardSize,
@@ -27,30 +20,39 @@ const gameSlice = createSlice({
   name: 'game',
   initialState,
   reducers: {
-    startGame: (state: GameState) => {
-      const newBoard = createInitialBoard(state.size);
-      state.board = newBoard;
-      state.score = 0;
+    startGame: (
+      state: GameState,
+      action: PayloadAction<{ board: Tile[][]; score: number }>
+    ) => {
+      state.board = action.payload.board;
+      state.score = action.payload.score;
       state.status = GameStateStatus.PLAYING;
       state.timer = Date.now();
     },
+    pauseGame: (state: GameState) => {
+      state.status = GameStateStatus.PAUSE;
+    },
     updateBoard: (
       state: GameState,
-      action: PayloadAction<{ board: Tile[][] }>
+      action: PayloadAction<{
+        board: Tile[][];
+        score: number;
+        isGameOver: boolean;
+      }>
     ) => {
-      const newScore = getScoreFromBoard(action.payload.board);
       state.board = action.payload.board;
-      state.score = newScore;
-      state.bestScore = Math.max(state.bestScore, newScore);
-      if (isGameOver(action.payload.board)) {
+      state.score = action.payload.score;
+      state.bestScore = Math.max(state.bestScore, action.payload.score);
+      if (action.payload.isGameOver) {
         state.status = GameStateStatus.GAMEOVER;
       }
     },
-    resetGame: (state: GameState) => {
-      const newBoard = createInitialBoard(initialState.size);
-      state.board = newBoard;
+    resetGame: (
+      state: GameState,
+      action: PayloadAction<{ board: Tile[][] }>
+    ) => {
+      state.board = action.payload.board;
       state.score = 0;
-      state.bestScore = 0;
       state.status = GameStateStatus.PLAYING;
       state.timer = Date.now();
     },
@@ -60,6 +62,6 @@ const gameSlice = createSlice({
   },
 });
 
-export const { resetGame, startGame, endGame, updateBoard } =
+export const { resetGame, startGame, endGame, updateBoard, pauseGame } =
   gameSlice.actions;
 export const gameReducer = gameSlice.reducer;

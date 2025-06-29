@@ -1,24 +1,19 @@
-import type { Tile, updateBoardProps } from '@/types/game.type';
+import type { Tile } from '@/types/game.type';
 
 //consts
 
 // getters
 
-export const getNonZeroTiles = (board: Tile[][]) => {
-  return board.flatMap((tile) => tile).filter((tile) => tile.value != 0);
+export const getAllNonZeroTiles = (board: Tile[][]) => {
+  return board.flat().filter((tile) => tile.value != 0);
 };
 
 export const getAllTiles = (board: Tile[][]) => {
-  return board.flatMap((tile) => tile);
+  return board.flat();
 };
 
 export const getScoreFromBoard = (board: Tile[][]) => {
-  return (
-    board
-      .flatMap((tile) => tile)
-      // .filter((tile) => tile.isMerged)
-      .reduce((acc, tile) => acc + tile.value, 0)
-  );
+  return board.flat().reduce((acc, tile) => acc + tile.value, 0);
 };
 
 //functions
@@ -47,7 +42,7 @@ export const createEmptyBoard = (size: number = 4): Tile[][] => {
 };
 
 export const createRandomTile = (board: Tile[][]) => {
-  const nonZeroTiles = getNonZeroTiles(board);
+  const nonZeroTiles = getAllNonZeroTiles(board);
   const value = Math.random() < 0.8 ? 2 : 4; // 80%
   let positionX = Math.floor(Math.random() * board.length);
   let positionY = Math.floor(Math.random() * board.length);
@@ -227,8 +222,9 @@ export const moveTilesToRight = (board: Tile[][]): Tile[][] => {
     : newBoard;
 };
 
-const getColumn = (board: Tile[][], colIndex: number): Tile[] =>
-  board.map((row) => row[colIndex]);
+const getColumn = (board: Tile[][], colIndex: number): Tile[] => {
+  return board.map((row) => row[colIndex]);
+};
 
 const setColumn = (board: Tile[][], colIndex: number, newCol: Tile[]) => {
   for (let row = 0; row < board.length; row++) {
@@ -354,12 +350,10 @@ export const moveTilesToDown = (board: Tile[][]): Tile[][] => {
     : newBoard;
 };
 
-export const isGameOver = (board: Tile[][]): boolean => {
+export const isGameOverCheck = (board: Tile[][]): boolean => {
   const size = board.length;
 
-  const isBoardFull = board
-    .flatMap((row) => row)
-    .every((tile) => tile.value !== 0);
+  const isBoardFull = board.flat().every((tile) => tile.value !== 0);
   if (!isBoardFull) return false;
 
   for (let i = 0; i < size; i++) {
@@ -372,4 +366,31 @@ export const isGameOver = (board: Tile[][]): boolean => {
   }
 
   return true;
+};
+
+export const cloneBoard = (board: Tile[][]) => {
+  return board.map((row) =>
+    row.map((tile) => ({
+      ...tile,
+      position: { x: tile.position.x, y: tile.position.y },
+    }))
+  );
+};
+
+export const hasChangedCheck = (
+  prevBoard: Tile[][],
+  currentBoard: Tile[][]
+) => {
+  const prev = prevBoard.flat().map((t) => t.value);
+  const current = currentBoard.flat().map((t) => t.value);
+  return prev.some((v, i) => v !== current[i]);
+};
+
+export const isWinCheck = (board: Tile[][], target: number) => {
+  return board.flat().some((tile) => tile.value === target);
+};
+
+export const assertNever = (val: never) => {
+  console.error(`unexpected value : ${val}`);
+  throw Error(`unexpected value : ${val}`);
 };
