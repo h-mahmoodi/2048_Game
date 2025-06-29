@@ -1,7 +1,5 @@
 import type { Tile } from '@/types/game.type';
 
-//consts
-
 // getters
 
 export const getAllNonZeroTiles = (board: Tile[][]) => {
@@ -41,27 +39,24 @@ export const createEmptyBoard = (size: number = 4): Tile[][] => {
   return board;
 };
 
-export const createRandomTile = (board: Tile[][]) => {
-  const nonZeroTiles = getAllNonZeroTiles(board);
-  const value = Math.random() < 0.8 ? 2 : 4; // 80%
-  let positionX = Math.floor(Math.random() * board.length);
-  let positionY = Math.floor(Math.random() * board.length);
+export const createRandomTile = (board: Tile[][]): Tile => {
+  const emptyTiles: Tile[] = board
+    .flat()
+    .filter((tile) => tile.value === 0);
 
-  while (
-    nonZeroTiles.some(
-      (tile) =>
-        tile.position.x === positionX && tile.position.y === positionY
-    )
-  ) {
-    positionX = Math.floor(Math.random() * board.length);
-    positionY = Math.floor(Math.random() * board.length);
+  if (emptyTiles.length === 0) {
+    throw new Error('No empty tile available');
   }
+
+  const randomIndex = Math.floor(Math.random() * emptyTiles.length);
+  const chosen = emptyTiles[randomIndex];
+
   return {
     id: crypto.randomUUID(),
-    value,
-    position: { x: positionX, y: positionY },
+    value: Math.random() < 0.9 ? 2 : 4,
+    position: { ...chosen.position },
     isMerged: false,
-  } as Tile;
+  };
 };
 
 export const createInitialBoard = (size: number) => {
@@ -360,11 +355,15 @@ export const isGameOverCheck = (board: Tile[][]): boolean => {
     for (let j = 0; j < size; j++) {
       const current = board[i][j].value;
 
-      if (i < size - 1 && current === board[i + 1][j].value) return false; // پایین
-      if (j < size - 1 && current === board[i][j + 1].value) return false; // راست
+      if (i < size - 1 && current === board[i + 1][j].value) return false;
+
+      if (i > 0 && current === board[i - 1][j].value) return false;
+
+      if (j < size - 1 && current === board[i][j + 1].value) return false;
+
+      if (j > 0 && current === board[i][j - 1].value) return false;
     }
   }
-
   return true;
 };
 

@@ -82,6 +82,10 @@ export class GameEngine {
   }
 
   insertRandomTile(): void {
+    if (!this.board.flat().some((tile) => tile.value === 0)) {
+      console.warn('Board full. Cannot insert tile.');
+      return;
+    }
     const tile = createRandomTile(this.board);
     this.board = updateCurrentBoard(this.board, [tile]);
   }

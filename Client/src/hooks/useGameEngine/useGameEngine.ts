@@ -54,12 +54,6 @@ export const useGameEngine = () => {
 
     game.insertRandomTile();
 
-    if (game.isGameOver()) {
-      console.log('isGameOver');
-      dispatch(endGame());
-      return;
-    }
-
     const gameObject = {
       board: game.getBoard(),
       score: game.getScore(),

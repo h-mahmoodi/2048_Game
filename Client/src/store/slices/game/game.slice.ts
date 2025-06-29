@@ -44,7 +44,9 @@ const gameSlice = createSlice({
       state.score = action.payload.score;
       state.bestScore = Math.max(state.bestScore, action.payload.score);
       if (action.payload.isGameOver) {
-        state.status = GameStateStatus.GAMEOVER;
+        state.status = action.payload.isGameOver
+          ? GameStateStatus.GAMEOVER
+          : GameStateStatus.PLAYING;
       }
     },
     resetGame: (
