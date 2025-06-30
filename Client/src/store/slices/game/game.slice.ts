@@ -57,9 +57,21 @@ const gameSlice = createSlice({
     endGame: (state: GameState) => {
       state.status = GameStateStatus.GAMEOVER;
     },
+    changeGameStatus: (
+      state: GameState,
+      action: PayloadAction<{ status: GameStateStatus }>
+    ) => {
+      state.status = action.payload.status;
+    },
   },
 });
 
-export const { resetGame, startGame, endGame, updateBoard, pauseGame } =
-  gameSlice.actions;
+export const {
+  resetGame,
+  startGame,
+  endGame,
+  updateBoard,
+  pauseGame,
+  changeGameStatus,
+} = gameSlice.actions;
 export const gameReducer = gameSlice.reducer;
