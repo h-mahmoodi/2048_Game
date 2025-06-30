@@ -4,6 +4,7 @@ import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine';
 import { gameSliceSelectors } from '@/store/slices/game/game.selector';
 import { Direction, GameStateStatus } from '@/types/game.type';
 import { useNavigate } from 'react-router';
+import { Tile } from '@/components/Tile/Tile';
 
 export const GamePage = () => {
   const navigate = useNavigate();
@@ -83,33 +84,40 @@ export const GamePage = () => {
     <div className="App">
       <div>Status : {game.status}</div>
       <div>Score : {game.score}</div>
-      <div>
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '10px',
+          fontSize: '30px',
+        }}
+      >
         {board.map((row, index) => (
           <div
             key={`row-${index}`}
             style={{
               display: 'flex',
-              gap: '5px',
+              gap: '10px',
               fontSize: '30px',
-              padding: '5px',
             }}
           >
             {row.map((col, index2) => (
-              <div
-                key={`col-${index2}`}
-                style={{
-                  width: '80px',
-                  height: '80px',
-                  textAlign: 'center',
-                  background: col.isMerged
-                    ? 'red'
-                    : col.value === 0
-                      ? 'black'
-                      : 'green',
-                }}
-              >
-                {col.value}
-              </div>
+              //   <div
+              //     key={`col-${index2}`}
+              //     style={{
+              //       width: '80px',
+              //       height: '80px',
+              //       textAlign: 'center',
+              //       background: col.isMerged
+              //         ? 'red'
+              //         : col.value === 0
+              //           ? 'black'
+              //           : 'green',
+              //     }}
+              //   >
+              //     {col.value}
+              //   </div>
+              <Tile key={`col-${index2}`} tile={col} />
             ))}
           </div>
         ))}

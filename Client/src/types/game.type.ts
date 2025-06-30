@@ -12,7 +12,7 @@ export type TilePosition = {
 
 export type Tile = {
   id: string;
-  value: number;
+  value: 0 | 2 | 4 | 8 | 16 | 32 | 64 | 128 | 256 | 512 | 1024 | 2048;
   position: TilePosition;
   isMerged?: boolean;
 };
