@@ -37,17 +37,13 @@ const gameSlice = createSlice({
       action: PayloadAction<{
         board: Tile[][];
         score: number;
-        isGameOver: boolean;
+        status: GameStateStatus;
       }>
     ) => {
       state.board = action.payload.board;
       state.score = action.payload.score;
       state.bestScore = Math.max(state.bestScore, action.payload.score);
-      if (action.payload.isGameOver) {
-        state.status = action.payload.isGameOver
-          ? GameStateStatus.GAMEOVER
-          : GameStateStatus.PLAYING;
-      }
+      state.status = action.payload.status;
     },
     resetGame: (
       state: GameState,

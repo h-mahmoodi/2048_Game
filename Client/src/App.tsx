@@ -17,10 +17,10 @@ import { useGameEngine } from './hooks/useGameEngine/useGameEngine';
 import { Direction } from './types/game.type';
 
 function App() {
-  const { startNew, pause, resume, move, reset } = useGameEngine();
+  const { startNew, pause, resume, move, reset, end } = useGameEngine();
   const game = useAppSelector(gameSliceSelectors.selectGame);
 
-  const { board } = useAppSelector(gameSliceSelectors.selectGame);
+  const { board, status } = useAppSelector(gameSliceSelectors.selectGame);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -43,6 +43,18 @@ function App() {
 
   const handleUpClick = () => {
     move(Direction.UP);
+  };
+
+  const handleResume = () => {
+    resume();
+  };
+
+  const handlePause = () => {
+    pause();
+  };
+
+  const handleEnd = () => {
+    end();
   };
 
   const handleReset = () => {
@@ -70,7 +82,7 @@ function App() {
     window.addEventListener('keydown', handleMove);
 
     return () => window.removeEventListener('keydown', handleMove);
-  }, [board, dispatch]);
+  }, [board, dispatch, status]);
 
   return (
     <div className="App">
@@ -114,7 +126,10 @@ function App() {
         <button onClick={handleUpClick}>up</button>
       </div>
       <div>
+        <button onClick={handleResume}>Resume</button>
+        <button onClick={handlePause}>Pause</button>
         <button onClick={handleReset}>Reset</button>
+        <button onClick={handleEnd}>End</button>
       </div>
     </div>
   );

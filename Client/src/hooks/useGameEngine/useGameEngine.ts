@@ -16,6 +16,8 @@ export const useGameEngine = () => {
     gameSliceSelectors.selectGame
   );
 
+  console.log('status0', status);
+
   const dispatch = useAppDispatch();
 
   const gameRef = useRef<GameEngine>(new GameEngine(size));
@@ -31,7 +33,7 @@ export const useGameEngine = () => {
   };
 
   const resume = () => {
-    const game = new GameEngine(size);
+    const game = gameRef.current;
     game.start(board);
     const gameObject = {
       board: game.getBoard(),
@@ -45,7 +47,9 @@ export const useGameEngine = () => {
   };
 
   const move = (direction: Direction) => {
+    console.log('status1', status);
     if (status !== GameStateStatus.PLAYING) return;
+    console.log('status2', status);
     const game = gameRef.current;
     game.start(board);
     const prevBoard = game.getBoard();
@@ -58,6 +62,9 @@ export const useGameEngine = () => {
       board: game.getBoard(),
       score: game.getScore(),
       isGameOver: game.isGameOver(),
+      status: game.isGameOver()
+        ? GameStateStatus.GAMEOVER
+        : GameStateStatus.PLAYING,
     };
 
     dispatch(updateBoard(gameObject));
@@ -72,5 +79,9 @@ export const useGameEngine = () => {
     dispatch(resetGame(gameObject));
   };
 
-  return { startNew, pause, resume, move, reset };
+  const end = () => {
+    dispatch(endGame());
+  };
+
+  return { startNew, pause, resume, move, reset, end };
 };
