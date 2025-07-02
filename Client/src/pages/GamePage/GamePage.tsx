@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '@/hooks/reduxHooks';
 import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine';
 import { gameSliceSelectors } from '@/store/slices/game/game.selector';
@@ -8,19 +8,21 @@ import { Tile } from '@/components/Tile/Tile';
 
 export const GamePage = () => {
   const navigate = useNavigate();
-  const { startNew, pause, resume, move, reset, end } = useGameEngine();
+  const { pause, move, reset, end } = useGameEngine();
   const game = useAppSelector(gameSliceSelectors.selectGame);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const { board, status } = useAppSelector(gameSliceSelectors.selectGame);
+  const { board, status } = game;
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (status === GameStateStatus.PAUSE) {
-      resume();
-      return;
+    if (status === GameStateStatus.IDLE) {
+      navigate('/');
     }
-    startNew();
-  }, []);
+    if (status !== GameStateStatus.IDLE) {
+      setIsLoading(false);
+    }
+  }, [board, status]);
 
   console.log(game);
 
@@ -38,10 +40,6 @@ export const GamePage = () => {
 
   const handleUpClick = () => {
     move(Direction.UP);
-  };
-
-  const handleResume = () => {
-    resume();
   };
 
   const handlePause = () => {
@@ -79,6 +77,10 @@ export const GamePage = () => {
 
     return () => window.removeEventListener('keydown', handleMove);
   }, [board, dispatch, status]);
+
+  if (isLoading) {
+    return <div>Loading</div>;
+  }
 
   return (
     <div className="App">
@@ -129,8 +131,10 @@ export const GamePage = () => {
         <button onClick={handleUpClick}>up</button>
       </div>
       <div>
-        <button onClick={handleResume}>Resume</button>
-        <button onClick={handlePause}>Pause</button>
+        {status === GameStateStatus.PLAYING && (
+          <button onClick={handlePause}>Pause</button>
+        )}
+
         <button onClick={handleReset}>Reset</button>
         <button onClick={handleEnd}>End</button>
       </div>

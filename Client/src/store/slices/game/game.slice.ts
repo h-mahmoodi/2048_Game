@@ -1,3 +1,4 @@
+import { createInitialBoard } from '@/utils/game.utils';
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 import {
   GameStateStatus,
@@ -6,9 +7,10 @@ import {
 } from '@/types/game.type';
 
 const initialBoardSize = 4;
+const initialBoard = createInitialBoard(initialBoardSize);
 
-const initialState: GameState = {
-  board: [],
+export const initialGameState: GameState = {
+  board: initialBoard,
   score: 0,
   bestScore: 0,
   size: initialBoardSize,
@@ -18,7 +20,7 @@ const initialState: GameState = {
 
 const gameSlice = createSlice({
   name: 'game',
-  initialState,
+  initialState: initialGameState,
   reducers: {
     startGame: (
       state: GameState,
@@ -55,7 +57,7 @@ const gameSlice = createSlice({
       state.timer = Date.now();
     },
     endGame: (state: GameState) => {
-      state.status = GameStateStatus.GAMEOVER;
+      state.status = GameStateStatus.IDLE;
     },
     changeGameStatus: (
       state: GameState,
