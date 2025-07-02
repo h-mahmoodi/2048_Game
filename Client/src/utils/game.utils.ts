@@ -149,9 +149,10 @@ export const moveTilesToLeft = (board: Tile[][]): Tile[][] => {
 
     newBoard.push(newRow);
   }
-  return isBoardChanged
-    ? updateCurrentBoard(newBoard, [createRandomTile(newBoard)])
-    : newBoard;
+  // return isBoardChanged
+  //   ? updateCurrentBoard(newBoard, [createRandomTile(newBoard)])
+  //   : newBoard;
+  return newBoard;
 };
 
 export const moveTilesToRight = (board: Tile[][]): Tile[][] => {
@@ -219,9 +220,10 @@ export const moveTilesToRight = (board: Tile[][]): Tile[][] => {
     newBoard.push([...newRow].reverse());
   }
 
-  return isBoardChanged
-    ? updateCurrentBoard(newBoard, [createRandomTile(newBoard)])
-    : newBoard;
+  // return isBoardChanged
+  //   ? updateCurrentBoard(newBoard, [createRandomTile(newBoard)])
+  //   : newBoard;
+  return newBoard;
 };
 
 const getColumn = (board: Tile[][], colIndex: number): Tile[] => {
@@ -286,9 +288,10 @@ export const moveTilesToUp = (board: Tile[][]): Tile[][] => {
     setColumn(newBoard, colIndex, newCol);
   }
 
-  return isBoardChanged
-    ? updateCurrentBoard(newBoard, [createRandomTile(newBoard)])
-    : newBoard;
+  // return isBoardChanged
+  //   ? updateCurrentBoard(newBoard, [createRandomTile(newBoard)])
+  //   : newBoard;
+  return newBoard;
 };
 
 export const moveTilesToDown = (board: Tile[][]): Tile[][] => {
@@ -347,9 +350,10 @@ export const moveTilesToDown = (board: Tile[][]): Tile[][] => {
     setColumn(newBoard, colIndex, [...newCol].reverse());
   }
 
-  return isBoardChanged
-    ? updateCurrentBoard(newBoard, [createRandomTile(newBoard)])
-    : newBoard;
+  // return isBoardChanged
+  //   ? updateCurrentBoard(newBoard, [createRandomTile(newBoard)])
+  //   : newBoard;
+  return newBoard;
 };
 
 export const isGameOverCheck = (board: Tile[][]): boolean => {

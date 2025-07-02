@@ -17,8 +17,8 @@ const useStyle = createUseStyles((theme: Theme) => ({
     justifyContent: 'center',
     alignItems: 'center',
     fontWeight: 'bold',
-    fontSize: 32,
-    borderRadius: 4,
+    fontSize: 48,
+    borderRadius: 5,
   },
 }));
 
