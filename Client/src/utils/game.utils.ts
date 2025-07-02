@@ -1,4 +1,11 @@
-import type { Tile } from '@/types/game.type';
+import { type GameState, type Tile } from '@/types/game.type';
+import {
+  loadFromLocalStorage,
+  removeFromLocalStorage,
+  saveToLocalStorage,
+} from './storage';
+import { StorageKey } from '@/types/app.type';
+import { GameStateSchema } from '@/schemas/game.schema';
 
 // getters
 
@@ -22,7 +29,7 @@ export const createEmptyBoard = (size: number = 4): Tile[][] => {
   for (let i = 0; i < size; i++) {
     const row: Tile[] = [];
     for (let j = 0; j < size; j++) {
-      const tile = {
+      const tile: Tile = {
         id: crypto.randomUUID(),
         value: 0,
         position: {
@@ -109,7 +116,7 @@ export const moveTilesToLeft = (board: Tile[][]): Tile[][] => {
         isBoardChanged = true;
         const mergedTile: Tile = {
           ...current,
-          value: current.value * 2,
+          value: (current.value * 2) as Tile['value'],
           isMerged: true,
           id: crypto.randomUUID(),
           position: { x: rowIndex, y: newRow.length },
@@ -168,7 +175,7 @@ export const moveTilesToRight = (board: Tile[][]): Tile[][] => {
 
         const mergedTile: Tile = {
           ...current,
-          value: current.value * 2,
+          value: (current.value * 2) as Tile['value'],
           isMerged: true,
           id: crypto.randomUUID(),
           position: { x: rowIndex, y: newY },
@@ -244,7 +251,7 @@ export const moveTilesToUp = (board: Tile[][]): Tile[][] => {
       if (next && current.value === next.value) {
         const mergedTile: Tile = {
           ...current,
-          value: current.value * 2,
+          value: (current.value * 2) as Tile['value'],
           isMerged: true,
           id: crypto.randomUUID(),
           position: { x: newCol.length, y: colIndex },
@@ -302,7 +309,7 @@ export const moveTilesToDown = (board: Tile[][]): Tile[][] => {
         const newX = board.length - 1 - newCol.length;
         const mergedTile: Tile = {
           ...current,
-          value: current.value * 2,
+          value: (current.value * 2) as Tile['value'],
           isMerged: true,
           id: crypto.randomUUID(),
           position: { x: newX, y: colIndex },
@@ -392,4 +399,24 @@ export const isWinCheck = (board: Tile[][], target: number) => {
 export const assertNever = (val: never) => {
   console.error(`unexpected value : ${val}`);
   throw Error(`unexpected value : ${val}`);
+};
+
+export const loadGameFromStorage = (): GameState | null => {
+  const gameState = loadFromLocalStorage(StorageKey.GAME_STATE);
+  const parsed = GameStateSchema.safeParse(gameState);
+
+  if (parsed.success) {
+    return parsed.data as GameState;
+  } else {
+    console.log(parsed.error);
+    return null;
+  }
+};
+
+export const saveGameToStorage = (gameState: GameState) => {
+  saveToLocalStorage(StorageKey.GAME_STATE, gameState);
+};
+
+export const removeGameFromStorage = () => {
+  removeFromLocalStorage(StorageKey.GAME_STATE);
 };

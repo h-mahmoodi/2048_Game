@@ -2,7 +2,11 @@ import { GameEngine } from '@/engine/GameEngine';
 import { useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../reduxHooks';
 import { gameSliceSelectors } from '@/store/slices/game/game.selector';
-import { GameStateStatus, type Direction } from '@/types/game.type';
+import {
+  GameStateStatus,
+  type Direction,
+  type GameState,
+} from '@/types/game.type';
 import {
   endGame,
   pauseGame,
@@ -10,36 +14,61 @@ import {
   startGame,
   updateBoard,
 } from '@/store/slices/game/game.slice';
+import {
+  loadGameFromStorage,
+  removeGameFromStorage,
+  saveGameToStorage,
+} from '@/utils/game.utils';
 
 export const useGameEngine = () => {
-  const { board, size, status } = useAppSelector(
-    gameSliceSelectors.selectGame
-  );
+  const gameState = useAppSelector(gameSliceSelectors.selectGame);
 
-  console.log('status0', status);
+  const { board, size, status, bestScore } = gameState;
 
   const dispatch = useAppDispatch();
 
   const gameRef = useRef<GameEngine>(new GameEngine(size));
 
   const startNew = () => {
+    removeGameFromStorage();
     const game = new GameEngine(size);
     game.start();
     const gameObject = {
       board: game.getBoard(),
       score: game.getScore(),
     };
+    const gameObjectForStorage: GameState = {
+      board: gameObject.board,
+      score: gameObject.score,
+      bestScore: Math.max(bestScore, gameObject.score),
+      size: size,
+      status: GameStateStatus.PLAYING,
+      timer: Date.now(),
+    };
+
     dispatch(startGame(gameObject));
+    saveGameToStorage(gameObjectForStorage);
   };
 
   const resume = () => {
     const game = gameRef.current;
-    game.start(board);
-    const gameObject = {
-      board: game.getBoard(),
-      score: game.getScore(),
-    };
-    dispatch(startGame(gameObject));
+    const savedGame = loadGameFromStorage();
+    if (savedGame) {
+      game.start(savedGame.board);
+      const gameObject = {
+        board: savedGame.board,
+        score: savedGame.score,
+      };
+
+      dispatch(startGame(gameObject));
+    } else {
+      game.start(board);
+      const gameObject = {
+        board: game.getBoard(),
+        score: game.getScore(),
+      };
+      dispatch(startGame(gameObject));
+    }
   };
 
   const pause = () => {
@@ -47,9 +76,7 @@ export const useGameEngine = () => {
   };
 
   const move = (direction: Direction) => {
-    console.log('status1', status);
     if (status !== GameStateStatus.PLAYING) return;
-    console.log('status2', status);
     const game = gameRef.current;
     game.start(board);
     const prevBoard = game.getBoard();
@@ -67,7 +94,17 @@ export const useGameEngine = () => {
         : GameStateStatus.PLAYING,
     };
 
+    const gameObjectForStorage: GameState = {
+      board: gameObject.board,
+      score: gameObject.score,
+      bestScore: Math.max(bestScore, gameObject.score),
+      size: size,
+      status: gameObject.status,
+      timer: Date.now(),
+    };
+
     dispatch(updateBoard(gameObject));
+    saveGameToStorage(gameObjectForStorage);
   };
 
   const reset = () => {
@@ -76,11 +113,22 @@ export const useGameEngine = () => {
     const gameObject = {
       board: game.getBoard(),
     };
+    const gameObjectForStorage: GameState = {
+      board: gameObject.board,
+      score: 0,
+      bestScore: 0,
+      size: size,
+      status: GameStateStatus.PLAYING,
+      timer: Date.now(),
+    };
+
     dispatch(resetGame(gameObject));
+    saveGameToStorage(gameObjectForStorage);
   };
 
   const end = () => {
     dispatch(endGame());
+    removeGameFromStorage();
   };
 
   return { startNew, pause, resume, move, reset, end };

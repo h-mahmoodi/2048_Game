@@ -1,3 +1,6 @@
+import type { GameStateSchema, TileSchema } from '@/schemas/game.schema';
+import { z } from 'zod';
+
 export enum GameStateStatus {
   PLAYING = 'playing',
   PAUSE = 'pause',
@@ -5,36 +8,13 @@ export enum GameStateStatus {
   GAMEOVER = 'gameover',
 }
 
-export type TilePosition = {
-  x: number;
-  y: number;
-};
-
-export type Tile = {
-  id: string;
-  value: number;
-  position: TilePosition;
-  isMerged?: boolean;
-};
-
-//redux
-export type GameState = {
-  board: Tile[][];
-  score: number;
-  bestScore: number;
-  size: number;
-  status: GameStateStatus;
-  timer: number;
-};
-
-//utils
-export type updateBoardProps = {
-  (currentBoard: Tile[][], tiles: Tile[]): Tile[][];
-};
-
 export enum Direction {
   UP = 'up',
   DOWN = 'down',
   LEFT = 'left',
   RIGHT = 'right',
 }
+
+export type Tile = z.infer<typeof TileSchema>;
+
+export type GameState = z.infer<typeof GameStateSchema>;
