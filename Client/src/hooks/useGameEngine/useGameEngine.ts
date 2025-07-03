@@ -19,6 +19,7 @@ import {
   removeGameFromStorage,
   saveGameToStorage,
 } from '@/utils/game.utils';
+import { useNavigate } from 'react-router';
 
 export const useGameEngine = () => {
   const gameState = useAppSelector(gameSliceSelectors.selectGame);
@@ -26,6 +27,7 @@ export const useGameEngine = () => {
   const { board, size, status, bestScore } = gameState;
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const gameRef = useRef<GameEngine>(new GameEngine(size));
 
@@ -35,7 +37,7 @@ export const useGameEngine = () => {
     game.start();
     const gameObject = {
       board: game.getBoard(),
-      score: game.getScore(),
+      score: 0,
     };
     const gameObjectForStorage: GameState = {
       board: gameObject.board,
@@ -73,6 +75,7 @@ export const useGameEngine = () => {
 
   const pause = () => {
     dispatch(pauseGame());
+    navigate('/');
   };
 
   const move = (direction: Direction) => {
