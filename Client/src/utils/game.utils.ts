@@ -118,7 +118,8 @@ export const moveTilesToLeft = (board: Tile[][]): Tile[][] => {
           ...current,
           value: (current.value * 2) as Tile['value'],
           isMerged: true,
-          id: crypto.randomUUID(),
+          // id: crypto.randomUUID(),
+          id: next.id,
           position: { x: rowIndex, y: newRow.length },
         };
         newRow.push(mergedTile);
@@ -130,7 +131,7 @@ export const moveTilesToLeft = (board: Tile[][]): Tile[][] => {
         const movedTile: Tile = {
           ...current,
           //   isMerged: false,
-          id: crypto.randomUUID(),
+          // id: crypto.randomUUID(),
           position: { x: rowIndex, y: newRow.length },
         };
         newRow.push(movedTile);
@@ -178,7 +179,8 @@ export const moveTilesToRight = (board: Tile[][]): Tile[][] => {
           ...current,
           value: (current.value * 2) as Tile['value'],
           isMerged: true,
-          id: crypto.randomUUID(),
+          // id: crypto.randomUUID(),
+          id: next.id,
           position: { x: rowIndex, y: newY },
         };
 
@@ -194,7 +196,7 @@ export const moveTilesToRight = (board: Tile[][]): Tile[][] => {
         const movedTile: Tile = {
           ...current,
           //   isMerged: false,
-          id: crypto.randomUUID(),
+          // id: crypto.randomUUID(),
           position: { x: rowIndex, y: newY },
         };
 
@@ -255,7 +257,8 @@ export const moveTilesToUp = (board: Tile[][]): Tile[][] => {
           ...current,
           value: (current.value * 2) as Tile['value'],
           isMerged: true,
-          id: crypto.randomUUID(),
+          // id: crypto.randomUUID(),
+          id: next.id,
           position: { x: newCol.length, y: colIndex },
         };
         newCol.push(mergedTile);
@@ -268,7 +271,7 @@ export const moveTilesToUp = (board: Tile[][]): Tile[][] => {
         const movedTile: Tile = {
           ...current,
           //   isMerged: false,
-          id: crypto.randomUUID(),
+          // id: crypto.randomUUID(),
           position: { x: newX, y: colIndex },
         };
         newCol.push(movedTile);
@@ -314,7 +317,8 @@ export const moveTilesToDown = (board: Tile[][]): Tile[][] => {
           ...current,
           value: (current.value * 2) as Tile['value'],
           isMerged: true,
-          id: crypto.randomUUID(),
+          // id: crypto.randomUUID(),
+          id: next.id,
           position: { x: newX, y: colIndex },
         };
         newCol.push(mergedTile);
@@ -327,7 +331,7 @@ export const moveTilesToDown = (board: Tile[][]): Tile[][] => {
         const movedTile: Tile = {
           ...current,
           //   isMerged: false,
-          id: crypto.randomUUID(),
+          // id: crypto.randomUUID(),
           position: { x: newX, y: colIndex },
         };
         newCol.push(movedTile);
