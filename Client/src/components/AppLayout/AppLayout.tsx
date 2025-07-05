@@ -7,12 +7,13 @@ import { Outlet } from 'react-router';
 
 const useStyle = createUseStyles((theme: Theme) => ({
   Main: {
-    width: '100%',
-    height: '100%',
+    width: '100vw',
+    height: '100vh',
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: () => theme.background,
+    // backgroundColor: () => theme.background,
+    backgroundColor: '#19191e',
   },
   Container: {
     width: '100%',
@@ -20,7 +21,7 @@ const useStyle = createUseStyles((theme: Theme) => ({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: () => theme.boardBackground,
+    // backgroundColor: () => theme.boardBackground,
   },
 }));
 
@@ -35,9 +36,9 @@ export const AppLayout = () => {
   };
   return (
     <div className={classes.Main}>
-      <div>
+      {/* <div>
         <button onClick={switchThemeHandler}>Switch theme</button>
-      </div>
+      </div> */}
       <div className={classes.Container}>
         <Outlet />
       </div>

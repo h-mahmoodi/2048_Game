@@ -8,6 +8,7 @@ import { BoardControllers } from '@/components/BoardControllers/BoardControllers
 import { BoardInfo } from '@/components/BoardInfo/BoardInfo';
 import { createUseStyles } from 'react-jss';
 import type { Theme } from '@/types/theme.type';
+import { BoardHeader } from '@/components/BoardHeader/BoardHeader';
 
 const useStyle = createUseStyles((theme: Theme) => ({
   Container: {
@@ -38,9 +39,9 @@ export const GamePage = () => {
 
   return (
     <div className={classes.Container}>
+      <BoardHeader />
       <BoardInfo />
       <Board />
-      <BoardControllers />
     </div>
   );
 };

@@ -19,7 +19,7 @@ const useStyle = createUseStyles((theme: Theme) => ({
     alignItems: 'center',
     fontWeight: 'bold',
     fontSize: 48,
-    borderRadius: 5,
+    borderRadius: 10,
     gridColumn: ({ position }: TileType) => `${position.y + 1}`,
     gridRow: ({ position }: TileType) => `${position.x + 1}`,
   },
@@ -50,12 +50,15 @@ const spring: Transition = {
 
 export const Tile: FC<TileProps> = ({ tile }) => {
   const classes = useStyle(tile);
+  const isMergedTile = tile.isMerged;
   return (
     <motion.div
       layoutId={tile.id}
       layout
-      className={classes.Tile}
+      initial={{ scale: 0.7 }}
+      animate={{ scale: 1 }}
       transition={spring}
+      className={classes.Tile}
     >
       {tile.value}
     </motion.div>

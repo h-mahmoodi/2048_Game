@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import { Button } from '../ui/Button/Button';
 import { createUseStyles } from 'react-jss';
 import type { Theme } from '@/types/theme.type';
+import { Icon } from '@/types/app.type';
 
 const useStyle = createUseStyles((theme: Theme) => ({
   Container: {
@@ -66,10 +67,10 @@ export const BoardControllers = () => {
   return (
     <div className={classes.Container}>
       {status === GameStateStatus.PLAYING && (
-        <Button onClick={handlePause}>Pause Game</Button>
+        <Button onClick={handlePause} icon={Icon.PAUSE} />
       )}
-      <Button onClick={handleReset}>Reset Game</Button>
-      <Button onClick={handleEnd}>End Game</Button>
+      <Button onClick={handleReset} icon={Icon.RESET} />
+      <Button onClick={handleEnd} icon={Icon.STOP} />
     </div>
   );
 };
