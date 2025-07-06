@@ -24,10 +24,17 @@ const gameSlice = createSlice({
   reducers: {
     startGame: (
       state: GameState,
-      action: PayloadAction<{ board: Tile[][]; score: number }>
+      action: PayloadAction<{
+        board: Tile[][];
+        score: number;
+        bestScore?: number;
+      }>
     ) => {
       state.board = action.payload.board;
       state.score = action.payload.score;
+      state.bestScore = action.payload.bestScore
+        ? action.payload.bestScore
+        : state.bestScore;
       state.status = GameStateStatus.PLAYING;
       state.timer = Date.now();
     },

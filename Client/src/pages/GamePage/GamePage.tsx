@@ -4,12 +4,11 @@ import { gameSliceSelectors } from '@/store/slices/game/game.selector';
 import { GameStateStatus } from '@/types/game.type';
 import { useNavigate } from 'react-router';
 import { Board } from '@/components/Board/Board';
-import { BoardControllers } from '@/components/BoardControllers/BoardControllers';
-import { BoardInfo } from '@/components/BoardInfo/BoardInfo';
 import { createUseStyles } from 'react-jss';
-import type { Theme } from '@/types/theme.type';
+import { type Theme } from '@/types/theme.type';
+import { BoardHeader, BoardInfo } from '@/components/Board/components';
 
-const useStyle = createUseStyles((theme: Theme) => ({
+const useStyle = createUseStyles((_theme: Theme) => ({
   Container: {
     display: 'flex',
     flexDirection: 'column',
@@ -38,9 +37,9 @@ export const GamePage = () => {
 
   return (
     <div className={classes.Container}>
+      <BoardHeader />
       <BoardInfo />
       <Board />
-      <BoardControllers />
     </div>
   );
 };

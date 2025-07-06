@@ -1,9 +1,10 @@
+import { useNavigate } from 'react-router';
 import { useAppSelector } from '@/hooks/reduxHooks';
 import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine';
 import { gameSliceSelectors } from '@/store/slices/game/game.selector';
-import { GameStateStatus } from '@/types/game.type';
 import { loadGameFromStorage } from '@/utils/game.utils';
-import { useNavigate } from 'react-router';
+
+import { GameStateStatus } from '@/types/game.type';
 
 export const HomePage = () => {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export const HomePage = () => {
     resume();
     navigate('/game');
   };
+
   return (
     <div>
       <div>HomePage</div>

@@ -330,7 +330,7 @@ export const moveTilesToDown = (board: Tile[][]): Tile[][] => {
 
         const movedTile: Tile = {
           ...current,
-          //   isMerged: false,
+          isMerged: false,
           // id: crypto.randomUUID(),
           position: { x: newX, y: colIndex },
         };
@@ -427,4 +427,14 @@ export const saveGameToStorage = (gameState: GameState) => {
 
 export const removeGameFromStorage = () => {
   removeFromLocalStorage(StorageKey.GAME_STATE);
+};
+
+export const secondToTimer = (number: number): string => {
+  const hours = Math.floor(number / 3600);
+  const minutes = Math.floor((number % 3600) / 60);
+  const seconds = number % 60;
+
+  const pad = (n: number) => String(n).padStart(2, '0');
+
+  return `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 };

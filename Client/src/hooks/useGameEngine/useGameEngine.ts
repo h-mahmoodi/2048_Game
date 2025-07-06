@@ -60,6 +60,7 @@ export const useGameEngine = () => {
       const gameObject = {
         board: savedGame.board,
         score: savedGame.score,
+        bestScore: savedGame.bestScore,
       };
 
       dispatch(startGame(gameObject));

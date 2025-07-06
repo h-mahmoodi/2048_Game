@@ -15,6 +15,13 @@ export enum Direction {
   RIGHT = 'right',
 }
 
+export enum GameAction {
+  END = 'end',
+  PAUSE = 'pause',
+  RESET = 'reset',
+  PLAY = 'play',
+}
+
 export type Tile = z.infer<typeof TileSchema>;
 
 export type GameState = z.infer<typeof GameStateSchema>;
