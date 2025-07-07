@@ -1,4 +1,4 @@
-import { Button } from '@/components/ui';
+import { Button } from '@/components/UI';
 import { BoardControllers } from './components';
 import { Icon } from '@/types/app.type';
 

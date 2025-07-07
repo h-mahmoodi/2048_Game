@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useAppSelector } from '@/hooks/reduxHooks';
-import { gameSliceSelectors } from '@/store/slices/game/game.selector';
+import { gameSelector } from '@/store/slices/game/game.selector';
 import { secondToTimer } from '@/utils/game.utils';
-import { InfoCard } from '@/components/ui';
+import { InfoCard } from '@/components/UI';
 
 import { useBoardInfoStyle } from './BoardInfo.style';
 
 export const BoardInfo = () => {
-  const game = useAppSelector(gameSliceSelectors.selectGame);
+  const game = useAppSelector(gameSelector.game);
   const [timer, setTimer] = useState(0);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(
     null

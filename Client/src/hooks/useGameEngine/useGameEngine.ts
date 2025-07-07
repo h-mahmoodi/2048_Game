@@ -1,7 +1,7 @@
 import { GameEngine } from '@/engine/GameEngine';
 import { useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../reduxHooks';
-import { gameSliceSelectors } from '@/store/slices/game/game.selector';
+import { gameSelector } from '@/store/slices/game/game.selector';
 import {
   GameStateStatus,
   type Direction,
@@ -22,7 +22,7 @@ import {
 import { useNavigate } from 'react-router';
 
 export const useGameEngine = () => {
-  const gameState = useAppSelector(gameSliceSelectors.selectGame);
+  const gameState = useAppSelector(gameSelector.game);
 
   const { board, size, status, bestScore } = gameState;
 
@@ -76,7 +76,7 @@ export const useGameEngine = () => {
 
   const pause = () => {
     dispatch(pauseGame());
-    navigate('/');
+    // navigate('/');
   };
 
   const move = (direction: Direction) => {

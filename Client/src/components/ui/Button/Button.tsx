@@ -1,37 +1,24 @@
-import type { Icon } from '@/types/app.type';
-import type { Theme } from '@/types/theme.type';
-import type { FC, ReactNode } from 'react';
-import { createUseStyles } from 'react-jss';
+import { type FC, type ReactNode } from 'react';
+import { type Icon } from '@/types/app.type';
+import { useButtonStyle } from './Button.style';
 
 type ButtonProps = {
   children?: ReactNode;
   onClick: () => void;
   icon?: Icon;
+  active?: boolean;
 };
 
-const useStyle = createUseStyles((theme: Theme) => ({
-  Button: {
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'center',
-    gap: 10,
-    padding: '20px 20px',
-    borderRadius: 5,
-    backgroundColor: '#3f3f46',
-    color: 'white',
-    outline: 0,
-    border: 0,
-    fontSize: 18,
-    fontWeight: 'bold',
-    width: '100%',
-  },
-}));
-
-export const Button: FC<ButtonProps> = ({ children, onClick, icon }) => {
-  const classes = useStyle();
+export const Button: FC<ButtonProps> = ({
+  children,
+  onClick,
+  icon,
+  active = false,
+}) => {
+  const classes = useButtonStyle({ active });
   return (
     <button className={classes.Button} onClick={onClick}>
-      {icon && <i className={icon} style={{ display: 'flex' }}></i>}
+      {icon && <i className={icon}></i>}
       {children && <span>{children}</span>}
     </button>
   );

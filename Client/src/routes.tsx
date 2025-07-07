@@ -1,11 +1,11 @@
 import { createBrowserRouter } from 'react-router';
 import { HomePage } from './pages/HomePage/HomePage';
 import { GamePage } from './pages/GamePage/GamePage';
-import { AppLayout } from './components/AppLayout/AppLayout';
+import { Layout } from '@/components/App/components';
 
 export const router = createBrowserRouter([
   {
-    Component: AppLayout,
+    Component: Layout,
     children: [
       {
         path: '/',

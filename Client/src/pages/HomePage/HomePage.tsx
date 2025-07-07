@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router';
 import { useAppSelector } from '@/hooks/reduxHooks';
 import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine';
-import { gameSliceSelectors } from '@/store/slices/game/game.selector';
+import { gameSelector } from '@/store/slices/game/game.selector';
 import { loadGameFromStorage } from '@/utils/game.utils';
 
 import { GameStateStatus } from '@/types/game.type';
@@ -9,7 +9,7 @@ import { GameStateStatus } from '@/types/game.type';
 export const HomePage = () => {
   const navigate = useNavigate();
   const { startNew, resume } = useGameEngine();
-  const { status } = useAppSelector(gameSliceSelectors.selectGame);
+  const { status } = useAppSelector(gameSelector.game);
   const hasGameInStorage = !!loadGameFromStorage();
 
   const startNewGameHandler = () => {

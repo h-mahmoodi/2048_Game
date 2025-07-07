@@ -1,40 +1,13 @@
-import type { Theme } from '@/types/theme.type';
-import type { FC } from 'react';
-import { createUseStyles } from 'react-jss';
+import { type FC } from 'react';
+import { useInfoCardStyle } from './InfoCard.style';
 
 type InfoCardProps = {
   title: string;
   value: number | string;
 };
 
-const useStyle = createUseStyles((theme: Theme) => ({
-  Container: {
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 5,
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: '#3f3f46',
-    borderRadius: 10,
-    height: 120,
-    minWidth: 120,
-    // padding: 10,
-  },
-  Title: {
-    color: 'white',
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
-  Value: {
-    color: 'white',
-    fontSize: 35,
-    fontWeight: 'bold',
-    lineHeight: 1,
-  },
-}));
-
 export const InfoCard: FC<InfoCardProps> = ({ title, value }) => {
-  const classes = useStyle();
+  const classes = useInfoCardStyle();
   return (
     <div className={classes.Container}>
       <div className={classes.Title}>{title}</div>
