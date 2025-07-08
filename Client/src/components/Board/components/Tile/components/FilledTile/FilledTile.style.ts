@@ -6,8 +6,8 @@ export const useFilledTileStyle = createUseStyles((theme: Theme) => ({
   Tile: {
     height: 120,
     width: 120,
-    background: (tile: Tile) => theme.tile[tile.value].backGround,
-    color: (tile: Tile) => theme.tile[tile.value].color,
+    background: (tile: Tile) => theme.color.tile[tile.value].bgColor,
+    color: () => theme.color.textColor.secondary,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

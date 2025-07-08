@@ -1,14 +1,14 @@
 import { type Theme } from '@/types/theme.type';
 import { createUseStyles } from 'react-jss';
 
-export const useInfoCardStyle = createUseStyles((_theme: Theme) => ({
+export const useInfoCardStyle = createUseStyles((theme: Theme) => ({
   Container: {
     display: 'flex',
     flexDirection: 'column',
     gap: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    backgroundColor: '#3f3f46',
+    backgroundColor: () => theme.color.bgColor.tertiary,
     borderRadius: 10,
     height: 120,
     minWidth: 120,

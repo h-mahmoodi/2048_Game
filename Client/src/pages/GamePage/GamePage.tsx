@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '@/hooks/reduxHooks';
+import { useAppSelector } from '@/hooks';
 import { gameSelector } from '@/store/slices/game/game.selector';
 import { GameStateStatus } from '@/types/game.type';
 import { useNavigate } from 'react-router';

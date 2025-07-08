@@ -6,7 +6,7 @@ type InitialState = {
 };
 
 const initialState: InitialState = {
-  theme: 'light',
+  theme: 'dark',
 };
 
 const appSlice = createSlice({

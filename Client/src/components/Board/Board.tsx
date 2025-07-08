@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAppSelector } from '@/hooks/reduxHooks';
+import { useAppSelector } from '@/hooks';
 import { gameSelector } from '@/store/slices/game/game.selector';
 import { Tile } from './components';
 import { Direction } from '@/types/game.type';

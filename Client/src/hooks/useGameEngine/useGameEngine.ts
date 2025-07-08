@@ -1,6 +1,6 @@
 import { GameEngine } from '@/engine/GameEngine';
 import { useRef } from 'react';
-import { useAppDispatch, useAppSelector } from '../reduxHooks';
+import { useAppDispatch, useAppSelector } from '@/hooks';
 import { gameSelector } from '@/store/slices/game/game.selector';
 import {
   GameStateStatus,

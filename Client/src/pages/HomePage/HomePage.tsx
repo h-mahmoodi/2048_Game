@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { useAppSelector } from '@/hooks/reduxHooks';
+import { useAppSelector } from '@/hooks';
 import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine';
 import { gameSelector } from '@/store/slices/game/game.selector';
 import { loadGameFromStorage } from '@/utils/game.utils';
