@@ -19,6 +19,7 @@ export enum GameAction {
   END = 'end',
   PAUSE = 'pause',
   RESET = 'reset',
+  RESUME = 'resume',
   PLAY = 'play',
 }
 

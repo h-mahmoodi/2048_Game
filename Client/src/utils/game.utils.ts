@@ -404,11 +404,6 @@ export const isWinCheck = (board: Tile[][], target: number) => {
   return board.flat().some((tile) => tile.value === target);
 };
 
-export const assertNever = (val: never) => {
-  console.error(`unexpected value : ${val}`);
-  throw Error(`unexpected value : ${val}`);
-};
-
 export const loadGameFromStorage = (): GameState | null => {
   const gameState = loadFromLocalStorage(StorageKey.GAME_STATE);
   const parsed = GameStateSchema.safeParse(gameState);

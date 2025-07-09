@@ -1,11 +1,11 @@
 import { createUseStyles } from 'react-jss';
 import { type Theme } from '@/types/theme.type';
 
-export const useEmptyTileStyle = createUseStyles((_theme: Theme) => ({
+export const useEmptyTileStyle = createUseStyles((theme: Theme) => ({
   Tile: {
     height: 120,
     width: 120,
-    background: '#3f3f46',
+    backgroundColor: () => theme.color.tile[0].bgColor,
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',

@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import { useAppSelector } from '@/hooks/reduxHooks';
-import { gameSliceSelectors } from '@/store/slices/game/game.selector';
+import { useAppSelector } from '@/hooks';
+import { gameSelector } from '@/store/slices/game/game.selector';
 import { Tile } from './components';
 import { Direction } from '@/types/game.type';
 import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine';
@@ -9,7 +9,7 @@ import { useBoardStyles } from './Board.style';
 
 export const Board = () => {
   const { move, pause } = useGameEngine();
-  const { board, status } = useAppSelector(gameSliceSelectors.selectGame);
+  const { board, status } = useAppSelector(gameSelector.game);
   const classes = useBoardStyles();
 
   const handleMove = (direction: Direction) => {

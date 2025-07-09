@@ -3,6 +3,7 @@ export enum StorageKey {
 }
 
 export enum Icon {
+  PLAY = 'fi fi-rr-play',
   PAUSE = 'fi fi-rr-pause',
   STOP = 'fi fi-rr-cross',
   RESET = 'fi fi-rr-refresh',
