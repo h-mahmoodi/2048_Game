@@ -5,8 +5,10 @@ import { secondToTimer } from '@/utils/game.utils';
 import { InfoCard } from '@/components/UI';
 
 import { useBoardInfoStyle } from './BoardInfo.style';
+import { useModal } from '@/hooks/useModal/useModal';
 
 export const BoardInfo = () => {
+  const { openModal } = useModal();
   const game = useAppSelector(gameSelector.game);
   const [timer, setTimer] = useState(0);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(
@@ -30,7 +32,7 @@ export const BoardInfo = () => {
   return (
     <div className={classes.Container}>
       <InfoCard title={game.status} value={secondToTimer(timer)} />
-      <div className={classes.Score}>
+      <div className={classes.Score} onClick={() => openModal('salam')}>
         <InfoCard title="SCORE" value={game.score} />
         <InfoCard title="BEST" value={game.bestScore} />
       </div>

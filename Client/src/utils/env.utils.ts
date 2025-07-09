@@ -1,11 +1,14 @@
-import { type EnvMappedType, EnvReturnType } from '@/types/env.type';
+import {
+  type EnvMappedType,
+  type GetEnvProps,
+  EnvReturnType,
+} from '@/types/env.type';
 import { assertNever } from './app.utils';
 
 export const getEnv = <T extends EnvReturnType>(
-  key: keyof ImportMetaEnv,
-  type: T,
-  fallback: EnvMappedType<T>
+  props: GetEnvProps<T>
 ): EnvMappedType<T> => {
+  const { key, type, fallback } = props;
   const value = import.meta.env[key] as EnvMappedType<T>;
 
   if (value == null || value === '') {
@@ -14,7 +17,8 @@ export const getEnv = <T extends EnvReturnType>(
   }
   switch (type) {
     case EnvReturnType.STRING: {
-      return value as EnvMappedType<T>;
+      const str = value.toString();
+      return str as EnvMappedType<T>;
     }
     case EnvReturnType.NUMBER: {
       const num = Number(value);
@@ -22,16 +26,16 @@ export const getEnv = <T extends EnvReturnType>(
         console.warn(
           `Invalid number value for ${key}: ${value}, using fallback`
         );
-        return fallback as EnvMappedType<T>;
+        return fallback;
       }
       return num as EnvMappedType<T>;
     }
     case EnvReturnType.BOOLEAN: {
-      const val = value.toString().toLowerCase();
-      if (val === '1' || val === 'true') {
+      const bool = value.toString().toLowerCase();
+      if (bool === '1' || bool === 'true') {
         return true as EnvMappedType<T>;
       }
-      if (val === '0' || val === 'false') {
+      if (bool === '0' || bool === 'false') {
         return false as EnvMappedType<T>;
       }
       console.warn(

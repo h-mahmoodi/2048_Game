@@ -22,7 +22,7 @@ const gameSlice = createSlice({
   name: 'game',
   initialState: initialGameState,
   reducers: {
-    startGame: (
+    startGameAction: (
       state: GameState,
       action: PayloadAction<{
         board: Tile[][];
@@ -38,10 +38,10 @@ const gameSlice = createSlice({
       state.status = GameStateStatus.PLAYING;
       state.timer = Date.now();
     },
-    pauseGame: (state: GameState) => {
+    pauseGameAction: (state: GameState) => {
       state.status = GameStateStatus.PAUSE;
     },
-    updateBoard: (
+    updateBoardAction: (
       state: GameState,
       action: PayloadAction<{
         board: Tile[][];
@@ -54,7 +54,7 @@ const gameSlice = createSlice({
       state.bestScore = Math.max(state.bestScore, action.payload.score);
       state.status = action.payload.status;
     },
-    resetGame: (
+    resetGameAction: (
       state: GameState,
       action: PayloadAction<{ board: Tile[][] }>
     ) => {
@@ -63,10 +63,10 @@ const gameSlice = createSlice({
       state.status = GameStateStatus.PLAYING;
       state.timer = Date.now();
     },
-    endGame: (state: GameState) => {
+    endGameAction: (state: GameState) => {
       state.status = GameStateStatus.IDLE;
     },
-    changeGameStatus: (
+    changeGameStatusAction: (
       state: GameState,
       action: PayloadAction<{ status: GameStateStatus }>
     ) => {
@@ -76,11 +76,11 @@ const gameSlice = createSlice({
 });
 
 export const {
-  resetGame,
-  startGame,
-  endGame,
-  updateBoard,
-  pauseGame,
-  changeGameStatus,
+  resetGameAction,
+  startGameAction,
+  endGameAction,
+  updateBoardAction,
+  pauseGameAction,
+  changeGameStatusAction,
 } = gameSlice.actions;
 export const gameReducer = gameSlice.reducer;

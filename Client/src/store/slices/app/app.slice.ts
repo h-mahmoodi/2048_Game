@@ -13,7 +13,7 @@ const appSlice = createSlice({
   name: 'app',
   initialState,
   reducers: {
-    setTheme: (
+    setThemeAction: (
       state: InitialState,
       action: PayloadAction<{ theme: ThemeName }>
     ) => {
@@ -22,5 +22,5 @@ const appSlice = createSlice({
   },
 });
 
-export const { setTheme } = appSlice.actions;
+export const { setThemeAction } = appSlice.actions;
 export const appReducer = appSlice.reducer;
