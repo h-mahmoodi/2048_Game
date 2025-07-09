@@ -8,7 +8,7 @@ import { Button } from '@/components/UI';
 import { useBoardControlleresStyle } from './BoardControllers.style';
 
 export const BoardControllers = () => {
-  const { resume, pause, reset, end } = useGameEngine();
+  const { resumeGame, pauseGame, resetGame, endGame } = useGameEngine();
   const { status } = useAppSelector(gameSelector.game);
 
   const classes = useBoardControlleresStyle();
@@ -16,19 +16,19 @@ export const BoardControllers = () => {
   const handleAction = (action: GameAction) => {
     switch (action) {
       case GameAction.RESUME: {
-        resume();
+        resumeGame();
         return;
       }
       case GameAction.PAUSE: {
-        pause();
+        pauseGame();
         return;
       }
       case GameAction.END: {
-        end();
+        endGame();
         return;
       }
       case GameAction.RESET: {
-        reset();
+        resetGame();
         return;
       }
     }

@@ -11,7 +11,7 @@ export const Layout = () => {
       <div className={classes.Container}>
         <Outlet />
       </div>
-      <Modal isOpen />
+      <Modal />
     </div>
   );
 };

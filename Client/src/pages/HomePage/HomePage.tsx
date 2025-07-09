@@ -8,17 +8,17 @@ import { GameStateStatus } from '@/types/game.type';
 
 export const HomePage = () => {
   const navigate = useNavigate();
-  const { startNew, resume } = useGameEngine();
+  const { startNewGame, resumeGame } = useGameEngine();
   const { status } = useAppSelector(gameSelector.game);
   const hasGameInStorage = !!loadGameFromStorage();
 
   const startNewGameHandler = () => {
-    startNew();
+    startNewGame();
     navigate('/game');
   };
 
   const resumeHandler = () => {
-    resume();
+    resumeGame();
     navigate('/game');
   };
 

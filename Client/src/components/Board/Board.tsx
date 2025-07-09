@@ -8,15 +8,15 @@ import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine';
 import { useBoardStyles } from './Board.style';
 
 export const Board = () => {
-  const { move, pause } = useGameEngine();
+  const { moveGame, pauseGame } = useGameEngine();
   const { board, status } = useAppSelector(gameSelector.game);
   const classes = useBoardStyles();
 
   const handleMove = (direction: Direction) => {
-    move(direction);
+    moveGame(direction);
   };
   const handlePause = () => {
-    pause();
+    pauseGame();
   };
 
   useEffect(() => {

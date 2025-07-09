@@ -8,11 +8,11 @@ import {
   type GameState,
 } from '@/types/game.type';
 import {
-  endGame,
-  pauseGame,
-  resetGame,
-  startGame,
-  updateBoard,
+  endGameAction,
+  pauseGameAction,
+  resetGameAction,
+  startGameAction,
+  updateBoardAction,
 } from '@/store/slices/game/game.slice';
 import {
   loadGameFromStorage,
@@ -31,7 +31,7 @@ export const useGameEngine = () => {
 
   const gameRef = useRef<GameEngine>(new GameEngine(size));
 
-  const startNew = () => {
+  const startNewGame = () => {
     removeGameFromStorage();
     const game = new GameEngine(size);
     game.start();
@@ -48,11 +48,11 @@ export const useGameEngine = () => {
       timer: Date.now(),
     };
 
-    dispatch(startGame(gameObject));
+    dispatch(startGameAction(gameObject));
     saveGameToStorage(gameObjectForStorage);
   };
 
-  const resume = () => {
+  const resumeGame = () => {
     const game = gameRef.current;
     const savedGame = loadGameFromStorage();
     if (savedGame) {
@@ -63,23 +63,23 @@ export const useGameEngine = () => {
         bestScore: savedGame.bestScore,
       };
 
-      dispatch(startGame(gameObject));
+      dispatch(startGameAction(gameObject));
     } else {
       game.start(board);
       const gameObject = {
         board: game.getBoard(),
         score: game.getScore(),
       };
-      dispatch(startGame(gameObject));
+      dispatch(startGameAction(gameObject));
     }
   };
 
-  const pause = () => {
-    dispatch(pauseGame());
+  const pauseGame = () => {
+    dispatch(pauseGameAction());
     // navigate('/');
   };
 
-  const move = (direction: Direction) => {
+  const moveGame = (direction: Direction) => {
     if (status !== GameStateStatus.PLAYING) return;
     const game = gameRef.current;
     game.start(board);
@@ -107,11 +107,11 @@ export const useGameEngine = () => {
       timer: Date.now(),
     };
 
-    dispatch(updateBoard(gameObject));
+    dispatch(updateBoardAction(gameObject));
     saveGameToStorage(gameObjectForStorage);
   };
 
-  const reset = () => {
+  const resetGame = () => {
     const game = new GameEngine(size);
     game.start();
     const gameObject = {
@@ -126,14 +126,21 @@ export const useGameEngine = () => {
       timer: Date.now(),
     };
 
-    dispatch(resetGame(gameObject));
+    dispatch(resetGameAction(gameObject));
     saveGameToStorage(gameObjectForStorage);
   };
 
-  const end = () => {
-    dispatch(endGame());
+  const endGame = () => {
+    dispatch(endGameAction());
     removeGameFromStorage();
   };
 
-  return { startNew, pause, resume, move, reset, end };
+  return {
+    startNewGame,
+    pauseGame,
+    resumeGame,
+    moveGame,
+    resetGame,
+    endGame,
+  };
 };
