@@ -1,0 +1,5 @@
+// export const ENV_KEYS = {
+//   MODAL_DOM_ID: 'VITE_MODAL_DOM_ID',
+//   GAME_INITIAL_SIZE: 'VITE_GAME_INITIAL_SIZE',
+//   DARK_MODE: 'VITE_DARK_MODE',
+// } as const;

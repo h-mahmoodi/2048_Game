@@ -1,6 +1,7 @@
 import { Outlet } from 'react-router';
 
 import { useLayoutStyle } from './Layout.style';
+import { Modal } from '../Modal/Modat';
 
 export const Layout = () => {
   const classes = useLayoutStyle();
@@ -10,6 +11,7 @@ export const Layout = () => {
       <div className={classes.Container}>
         <Outlet />
       </div>
+      <Modal isOpen />
     </div>
   );
 };

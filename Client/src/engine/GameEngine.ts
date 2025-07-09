@@ -1,6 +1,6 @@
 import { Direction, type Tile } from '@/types/game.type';
+import { assertNever } from '@/utils/app.utils';
 import {
-  assertNever,
   cloneBoard,
   createEmptyBoard,
   createInitialBoard,
