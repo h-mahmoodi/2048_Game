@@ -1,6 +1,4 @@
 import { useEffect } from 'react';
-import { useAppSelector } from '@/hooks';
-import { gameSelector } from '@/store/slices/game/game.selector';
 import { Tile } from './components';
 import { Direction } from '@/types/game.type';
 import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine';
@@ -8,8 +6,11 @@ import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine';
 import { useBoardStyles } from './Board.style';
 
 export const Board = () => {
-  const { moveGame, pauseGame } = useGameEngine();
-  const { board, status } = useAppSelector(gameSelector.game);
+  const {
+    state: { board, status },
+    moveGame,
+    pauseGame,
+  } = useGameEngine();
   const classes = useBoardStyles();
 
   const handleMove = (direction: Direction) => {

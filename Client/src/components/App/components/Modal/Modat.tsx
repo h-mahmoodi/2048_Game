@@ -5,11 +5,11 @@ import { useModalStyle } from './Modal.style';
 import { AnimatePresence, motion } from 'motion/react';
 
 const ModalComponent: FC = () => {
-  const { isOpen, content, closeModal } = useModal();
+  const {
+    state: { isOpen, content },
+    closeModal,
+  } = useModal();
   const classes = useModalStyle();
-  //   if (!isOpen) {
-  //     return null;
-  //   }
   return (
     <AnimatePresence initial={false}>
       {isOpen && (
@@ -31,7 +31,6 @@ const ModalComponent: FC = () => {
             initial={{ scale: 0.8, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             exit={{ scale: 0.8, opacity: 0 }}
-            // transition={{ duration: 0.3 }}
           >
             <button onClick={closeModal}>close</button>
             <div>modal</div>

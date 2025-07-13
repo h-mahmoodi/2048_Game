@@ -1,6 +1,4 @@
-import { useAppSelector } from '@/hooks';
 import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine';
-import { gameSelector } from '@/store/slices/game/game.selector';
 import { GameAction, GameStateStatus } from '@/types/game.type';
 import { Icon } from '@/types/app.type';
 import { Button } from '@/components/UI';
@@ -8,8 +6,13 @@ import { Button } from '@/components/UI';
 import { useBoardControlleresStyle } from './BoardControllers.style';
 
 export const BoardControllers = () => {
-  const { resumeGame, pauseGame, resetGame, endGame } = useGameEngine();
-  const { status } = useAppSelector(gameSelector.game);
+  const {
+    state: { status },
+    resumeGame,
+    pauseGameWithShowModal,
+    resetGame,
+    endGame,
+  } = useGameEngine();
 
   const classes = useBoardControlleresStyle();
 
@@ -20,7 +23,7 @@ export const BoardControllers = () => {
         return;
       }
       case GameAction.PAUSE: {
-        pauseGame();
+        pauseGameWithShowModal('modal pause');
         return;
       }
       case GameAction.END: {
