@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { Tile } from './components';
 import { Direction } from '@/types/game.type';
-import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine';
+import { useGameEngine } from '@/hooks';
 
 import { useBoardStyles } from './Board.style';
 
