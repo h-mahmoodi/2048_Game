@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router';
-import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine-old';
+import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine';
 import { loadGameFromStorage } from '@/utils/game.utils';
 
 import { GameStateStatus } from '@/types/game.type';

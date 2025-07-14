@@ -13,53 +13,58 @@ import {
   startGameAction,
   updateBoardAction,
 } from '@/store/slices/game/game.slice';
-import { useRef } from 'react';
+import { useEffect, useRef } from 'react';
+import {
+  buildGameState,
+  createGameInstance,
+  resumeGameInstanse,
+} from '@/services/game/game.service';
 
 export const gameEngineActions = () => {
   const { board, size, status, bestScore } = useAppSelector(
     gameSelector.game
   );
   const dispatch = useAppDispatch();
-  const gameRef = useRef<GameEngine>(new GameEngine(size));
+  const gameRef = useRef<GameEngine>(createGameInstance(size));
+
+  useEffect(() => {
+    gameRef.current = createGameInstance(size);
+  }, [size]);
 
   const dispatchStartNewGame = (): GameState => {
-    const game = new GameEngine(size);
-    game.start();
-    const gameObject = {
-      board: game.getBoard(),
-      score: 0,
-    };
-    const gameObjectForStorage: GameState = {
-      board: gameObject.board,
-      score: gameObject.score,
-      bestScore: Math.max(bestScore, gameObject.score),
-      size: size,
-      status: GameStateStatus.PLAYING,
-      timer: Date.now(),
-    };
+    const game = createGameInstance(size);
 
-    dispatch(startGameAction(gameObject));
-    return gameObjectForStorage;
+    dispatch(
+      startGameAction({
+        board: game.getBoard(),
+        score: 0,
+      })
+    );
+
+    return buildGameState(game, bestScore, size, GameStateStatus.PLAYING);
   };
 
   const dispatchResumeGame = (savedGame: GameState | null) => {
     const game = gameRef.current;
     if (savedGame) {
-      game.start(savedGame.board);
-      const gameObject = {
-        board: savedGame.board,
-        score: savedGame.score,
-        bestScore: savedGame.bestScore,
-      };
+      resumeGameInstanse(game, savedGame.board);
 
-      dispatch(startGameAction(gameObject));
+      dispatch(
+        startGameAction({
+          board: savedGame.board,
+          score: savedGame.score,
+          bestScore: savedGame.bestScore,
+        })
+      );
     } else {
-      game.start(board);
-      const gameObject = {
-        board: game.getBoard(),
-        score: game.getScore(),
-      };
-      dispatch(startGameAction(gameObject));
+      resumeGameInstanse(game, board);
+
+      dispatch(
+        startGameAction({
+          board: game.getBoard(),
+          score: game.getScore(),
+        })
+      );
     }
   };
 
@@ -70,52 +75,36 @@ export const gameEngineActions = () => {
   const dispatchMoveGame = (direction: Direction): GameState | void => {
     if (status !== GameStateStatus.PLAYING) return;
     const game = gameRef.current;
-    game.start(board);
+    resumeGameInstanse(game, board);
     const prevBoard = game.getBoard();
     game.move(direction);
     if (!game.hasChanged(prevBoard)) return;
 
     game.insertRandomTile();
 
-    const gameObject = {
-      board: game.getBoard(),
-      score: game.getScore(),
-      isGameOver: game.isGameOver(),
-      status: game.isGameOver()
-        ? GameStateStatus.GAMEOVER
-        : GameStateStatus.PLAYING,
-    };
+    const newStatus = game.isGameOver()
+      ? GameStateStatus.GAMEOVER
+      : GameStateStatus.PLAYING;
 
-    const gameObjectForStorage: GameState = {
-      board: gameObject.board,
-      score: gameObject.score,
-      bestScore: Math.max(bestScore, gameObject.score),
-      size: size,
-      status: gameObject.status,
-      timer: Date.now(),
-    };
-
-    dispatch(updateBoardAction(gameObject));
-    return gameObjectForStorage;
+    dispatch(
+      updateBoardAction({
+        board: game.getBoard(),
+        score: game.getScore(),
+        status: newStatus,
+      })
+    );
+    return buildGameState(game, bestScore, size, newStatus);
   };
 
   const dispatchResetGame = (): GameState => {
-    const game = new GameEngine(size);
-    game.start();
-    const gameObject = {
-      board: game.getBoard(),
-    };
-    const gameObjectForStorage: GameState = {
-      board: gameObject.board,
-      score: 0,
-      bestScore: 0,
-      size: size,
-      status: GameStateStatus.PLAYING,
-      timer: Date.now(),
-    };
+    const game = createGameInstance(size);
 
-    dispatch(resetGameAction(gameObject));
-    return gameObjectForStorage;
+    dispatch(
+      resetGameAction({
+        board: game.getBoard(),
+      })
+    );
+    return buildGameState(game, 0, size, GameStateStatus.PLAYING);
   };
 
   const dispatchEndGame = () => {

@@ -33,7 +33,7 @@ export const gameEngineOrchestrator = () => {
     dispatchPauseGame();
   };
 
-  const pauseGamWithOpenModalFlow = (content: ModalState['content']) => {
+  const pauseGamewithOpenFlow = (content: ModalState['content']) => {
     dispatchPauseGame();
     openModal(content);
   };
@@ -59,7 +59,7 @@ export const gameEngineOrchestrator = () => {
     startNewGameFlow,
     resumeGameFlow,
     pauseGameFlow,
-    pauseGamWithOpenModalFlow,
+    pauseGamewithOpenFlow,
     moveGameFlow,
     resetGameFlow,
     endGameFlow,

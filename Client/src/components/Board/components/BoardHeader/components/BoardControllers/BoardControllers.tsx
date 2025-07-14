@@ -1,4 +1,4 @@
-import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine-old';
+import { useGameEngine } from '@/hooks';
 import { GameAction, GameStateStatus } from '@/types/game.type';
 import { Icon } from '@/types/app.type';
 import { Button } from '@/components/UI';
@@ -9,7 +9,7 @@ export const BoardControllers = () => {
   const {
     state: { status },
     resumeGame,
-    pauseGameWithShowModal,
+    pauseGameWithModal,
     resetGame,
     endGame,
   } = useGameEngine();
@@ -23,7 +23,7 @@ export const BoardControllers = () => {
         return;
       }
       case GameAction.PAUSE: {
-        pauseGameWithShowModal('modal pause');
+        pauseGameWithModal('modal pause');
         return;
       }
       case GameAction.END: {
