@@ -1,4 +1,4 @@
-import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine';
+import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine-old';
 import { GameAction, GameStateStatus } from '@/types/game.type';
 import { Icon } from '@/types/app.type';
 import { Button } from '@/components/UI';
