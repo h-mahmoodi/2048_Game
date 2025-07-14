@@ -12,6 +12,7 @@ export const useInfoCardStyle = createUseStyles((theme: Theme) => ({
     borderRadius: 10,
     height: 120,
     minWidth: 120,
+    userSelect: 'none',
     // padding: 10,
   },
   Title: {

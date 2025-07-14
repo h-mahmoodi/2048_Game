@@ -1,15 +1,16 @@
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '@/hooks';
-import { gameSelector } from '@/store/slices/game/game.selector';
+import { useGameEngine } from '@/hooks';
 import { secondToTimer } from '@/utils/game.utils';
 import { InfoCard } from '@/components/UI';
+import { useModal } from '@/hooks/useModal/useModal';
 
 import { useBoardInfoStyle } from './BoardInfo.style';
-import { useModal } from '@/hooks/useModal/useModal';
 
 export const BoardInfo = () => {
   const { openModal } = useModal();
-  const game = useAppSelector(gameSelector.game);
+  const {
+    state: { status, score, bestScore },
+  } = useGameEngine();
   const [timer, setTimer] = useState(0);
   const [intervalId, setIntervalId] = useState<NodeJS.Timeout | null>(
     null
@@ -17,7 +18,7 @@ export const BoardInfo = () => {
   const classes = useBoardInfoStyle();
 
   useEffect(() => {
-    if (game.status === 'playing') {
+    if (status === 'playing') {
       const id = setInterval(() => {
         setTimer((prev) => prev + 1);
       }, 1000);
@@ -27,14 +28,14 @@ export const BoardInfo = () => {
     } else {
       if (intervalId) clearInterval(intervalId);
     }
-  }, [game.status]);
+  }, [status]);
 
   return (
     <div className={classes.Container}>
-      <InfoCard title={game.status} value={secondToTimer(timer)} />
+      <InfoCard title={status} value={secondToTimer(timer)} />
       <div className={classes.Score} onClick={() => openModal('salam')}>
-        <InfoCard title="SCORE" value={game.score} />
-        <InfoCard title="BEST" value={game.bestScore} />
+        <InfoCard title="SCORE" value={score} />
+        <InfoCard title="BEST" value={bestScore} />
       </div>
     </div>
   );

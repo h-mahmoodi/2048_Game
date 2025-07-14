@@ -1,18 +1,44 @@
 import { useModal } from '@/hooks/useModal/useModal';
-import { useEffect, useRef, useState, type FC } from 'react';
+import { useEffect, useState, type FC } from 'react';
 import { createPortal } from 'react-dom';
+import { useModalStyle } from './Modal.style';
+import { AnimatePresence, motion } from 'motion/react';
 
 const ModalComponent: FC = () => {
-  const { isOpen, content, closeModal } = useModal();
-  if (!isOpen) {
-    return null;
-  }
+  const {
+    state: { isOpen, content },
+    closeModal,
+  } = useModal();
+  const classes = useModalStyle();
   return (
-    <div>
-      <button onClick={closeModal}>close</button>
-      <div>modal</div>
-      <div>{content}</div>
-    </div>
+    <AnimatePresence initial={false}>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+          animate={{ opacity: 1, backdropFilter: 'blur(10px)' }}
+          exit={{ opacity: 0, backdropFilter: 'blur(0px)' }}
+          className={classes.Container}
+        >
+          <motion.div
+            className={classes.Backdrop}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+          />
+
+          <motion.div
+            className={classes.Modal}
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+          >
+            <button onClick={closeModal}>close</button>
+            <div>modal</div>
+            <div>{content}</div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   );
 };
 

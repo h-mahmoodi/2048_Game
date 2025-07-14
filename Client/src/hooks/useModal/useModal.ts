@@ -7,7 +7,7 @@ import {
 import { type ModalState } from '@/types/modal.type';
 
 export const useModal = () => {
-  const modal = useAppSelector(modalSelector);
+  const modalState = useAppSelector(modalSelector);
   const dispatch = useAppDispatch();
 
   const openModal = (content: ModalState['content']) => {
@@ -18,5 +18,5 @@ export const useModal = () => {
     dispatch(closeModalAction());
   };
 
-  return { ...modal, openModal, closeModal };
+  return { state: modalState, openModal, closeModal };
 };

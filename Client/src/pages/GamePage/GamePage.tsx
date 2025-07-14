@@ -1,6 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '@/hooks';
-import { gameSelector } from '@/store/slices/game/game.selector';
+import { useGameEngine } from '@/hooks';
 import { GameStateStatus } from '@/types/game.type';
 import { useNavigate } from 'react-router';
 import { Board } from '@/components/Board/Board';
@@ -18,7 +17,9 @@ const useStyle = createUseStyles((_theme: Theme) => ({
 
 export const GamePage = () => {
   const navigate = useNavigate();
-  const { status } = useAppSelector(gameSelector.game);
+  const {
+    state: { status },
+  } = useGameEngine();
   const [isLoading, setIsLoading] = useState(true);
   const classes = useStyle();
 

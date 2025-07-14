@@ -1,7 +1,5 @@
 import { useNavigate } from 'react-router';
-import { useAppSelector } from '@/hooks';
 import { useGameEngine } from '@/hooks/useGameEngine/useGameEngine';
-import { gameSelector } from '@/store/slices/game/game.selector';
 import { loadGameFromStorage } from '@/utils/game.utils';
 
 import { GameStateStatus } from '@/types/game.type';
@@ -9,7 +7,9 @@ import { GameStateStatus } from '@/types/game.type';
 export const HomePage = () => {
   const navigate = useNavigate();
   const { startNewGame, resumeGame } = useGameEngine();
-  const { status } = useAppSelector(gameSelector.game);
+  const {
+    state: { status },
+  } = useGameEngine();
   const hasGameInStorage = !!loadGameFromStorage();
 
   const startNewGameHandler = () => {

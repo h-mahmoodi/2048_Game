@@ -19,15 +19,14 @@ import {
   removeGameFromStorage,
   saveGameToStorage,
 } from '@/utils/game.utils';
-import { useNavigate } from 'react-router';
+import { useModal } from '../useModal/useModal';
+import type { ModalState } from '@/types/modal.type';
 
 export const useGameEngine = () => {
   const gameState = useAppSelector(gameSelector.game);
-
   const { board, size, status, bestScore } = gameState;
-
+  const { openModal } = useModal();
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
 
   const gameRef = useRef<GameEngine>(new GameEngine(size));
 
@@ -76,7 +75,11 @@ export const useGameEngine = () => {
 
   const pauseGame = () => {
     dispatch(pauseGameAction());
-    // navigate('/');
+  };
+
+  const pauseGameWithShowModal = (content: ModalState['content']) => {
+    pauseGame();
+    openModal(content);
   };
 
   const moveGame = (direction: Direction) => {
@@ -136,8 +139,10 @@ export const useGameEngine = () => {
   };
 
   return {
+    state: gameState,
     startNewGame,
     pauseGame,
+    pauseGameWithShowModal,
     resumeGame,
     moveGame,
     resetGame,
